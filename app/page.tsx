@@ -5,9 +5,18 @@ import { sampleGamesData } from "@/data/gameSampleData";
 import { useEffect } from "react";
 
 export default function Home() {
+
+    const games = sampleGamesData.response;
+
   return (
-    <div className="min-h-screen bg-black">
-      <GameCard game={sampleGamesData.response[0]}></GameCard>
+    <div className="min-h-screen bg-black border">
+      <div className="w-1/2 pl-100">
+      <div className="grid grid-cols-3 gap-4">
+      {games.map((game: any) => (
+        <GameCard key={game.id} game={game} />
+      ))}
+      </div>
+      </div>
     </div>
   );
 }
