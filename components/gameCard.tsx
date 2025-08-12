@@ -17,15 +17,18 @@ export default function GameCard({ game }: { game: any }) {
 
 
   return (
-    <div key={game.id} className="border border-white max-w-md mx-auto bg-gray-900 rounded-lg shadow-lg p-2 text-gray-400 font-sans">
-      <div className="flex flex-row justify-between">
+    <div key={game.id} className="border border-white max-w-xs mx-auto bg-gray-900 rounded-lg shadow-lg p-2 text-gray-400 font-sans">
+      <div className="flex flex-row justify-between pb-2">
         <div className="flex flex-row">
+          <div className="w-6 h-6 relative">
           <Image
             src={game.teams.home.logo}
             alt={`${game.teams.home.name} logo`}
-            width={24}
-            height={24}
+            fill
+            className="object-contain"
+
           />
+          </div>
           <span className={homeWinner ? "text-white " : ""}>
             {game.teams.home.name}
           </span>
@@ -36,12 +39,14 @@ export default function GameCard({ game }: { game: any }) {
       </div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-row">
+          <div className="w-6 h-6 relative">
           <Image
             src={game.teams.visitors.logo}
             alt={`${game.teams.visitors.name} logo`}
-            width={24}
-            height={24}
+            fill
+            className="object-contain"
           />
+          </div>
           <span className={!homeWinner ? "text-white " : ""}>
             {game.teams.visitors.name}
           </span>
