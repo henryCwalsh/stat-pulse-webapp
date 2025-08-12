@@ -17,7 +17,7 @@ export default function GameCard({ game }: { game: any }) {
 
 
   return (
-    <div key={game.id} className="border border-white max-w-xs mx-auto bg-gray-900 rounded-lg shadow-lg p-2 text-gray-400 font-sans">
+    <div key={game.id} className="border border-white max-w-xs mx-auto bg-gray-600 rounded-lg shadow-lg p-2 text-gray-400 font-sans">
       <div className="flex flex-row justify-between pb-2">
         <div className="flex flex-row">
           <div className="w-6 h-6 relative">
@@ -29,11 +29,11 @@ export default function GameCard({ game }: { game: any }) {
 
           />
           </div>
-          <span className={homeWinner ? "text-white " : ""}>
+          <span className={homeWinner ? "text-white pl-2" : "pl-2"}>
             {game.teams.home.name}
           </span>
         </div>
-        <div className={homeWinner ? "text-white " : ""}>
+        <div className={homeWinner ? "text-white" : ""}>
           {game.scores.home.points}
         </div>
       </div>
@@ -47,7 +47,7 @@ export default function GameCard({ game }: { game: any }) {
             className="object-contain"
           />
           </div>
-          <span className={!homeWinner ? "text-white " : ""}>
+          <span className={!homeWinner ? "text-white pl-2" : "pl-2"}>
             {game.teams.visitors.name}
           </span>
         </div>
