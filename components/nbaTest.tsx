@@ -1,22 +1,32 @@
 "use client"
-import { getGamesPerDate } from "@/lib/nbaApi";
+import { getGamesPerDate, getPlayersForDate } from "@/lib/nbaApi";
 import { useEffect, useState } from "react";
 
 export default function NbaTest(){
     const [games, setGames] = useState<any[]>([]);
+      const [players, setPlayers] = useState<any[]>([]);
+
 
     useEffect(() => {
-        async function fetchData() {
-            console.log("Fetching Christmas Day 2024");
-            try{
-                const data = await getGamesPerDate("2024-12-25");
-                console.log(data);
-                setGames(data.response || []);
-            } catch(error){
-                console.log(error);
-            }
+      async function fetchData() {
+        const date = "2024-12-25";
+        console.log("Fetching games and players for:", date);
+
+        try {
+          // 1. Fetch games
+          const gamesData = await getGamesPerDate(date);
+          console.log("Games:", gamesData);
+          setGames(gamesData?.response || []);
+
+          // 2. Fetch players
+          const playersData = await getPlayersForDate(date);
+          console.log("Players:", playersData);
+          setPlayers(playersData?.response || []);
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-        fetchData();
+      }
+      fetchData();
     }, []);
 
       return (
