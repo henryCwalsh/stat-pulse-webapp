@@ -3,7 +3,7 @@ import { sampleGamesData } from "@/data/gameSampleData";
 import { Game } from "@/types/nba";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { getPlayersForDate } from "@/lib/nbaApi"; // Your API function
+import { getPlayersForDate, getPlayersPerGameId } from "@/lib/nbaApi"; // Your API function
 
 type Player = {
   player: { id: number; firstname: string; lastname: string };
@@ -22,9 +22,8 @@ export default function GameCard({ game }: { game: any }) {
 
   useEffect(() => {
     async function fetchPlayers() {
-      const allPlayers = await getPlayersForDate("2024-12-25"); // replace with actual date
+      const gamePlayers = await getPlayersPerGameId(game.id); // replace with actual date
       // Filter players for this game
-      const gamePlayers = allPlayers.filter((p: Player) => p.game.id === game.id);
       setPlayers(gamePlayers);
       // Find top scorer
       const leading = gamePlayers.sort((a, b) => b.points - a.points)[0];
@@ -73,7 +72,7 @@ export default function GameCard({ game }: { game: any }) {
           {visitorPoints}
         </div>
       </div>
-
+  
       {/* Leading Scorer */}
       {topScorer && (
         <div className="text-xs text-yellow-400 mt-1">
