@@ -47,6 +47,7 @@ export async function getPlayersForDate(dateString: string): Promise<any> {
         });
         
         const playersResponses = await Promise.all(playerRequests);
+        console.log(playersResponses);
 
         return playersResponses.flatMap((res) => res.response || []);
 
