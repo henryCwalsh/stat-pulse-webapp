@@ -44,7 +44,7 @@ export default function GameCard({ game }: { game: any }) {
   return (
     <div
       key={game.id}
-      className="border border-white w-64 h-30 bg-gray-600 rounded-lg shadow-lg p-2 text-gray-400 font-sans"
+      className="w-64 h-30 bg-gray-600 rounded-lg shadow-lg p-2 text-gray-400 font-sans"
     >
       {/* Home team */}
       <div className="flex items-center pb-1">

@@ -13,9 +13,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black flex flex-row">
-<div className="min-h-screen bg-black flex flex-row gap-10">
+<div className="min-h-screen bg-black flex flex-row gap-50 ">
   {/* Player Rankings */}
-  <div className="flex flex-col gap-4 mb-8 border p-10">
+  <div className="flex flex-col gap-4 mb-8 p-10">
     {samplePlayersData
       .slice()
       .sort((a: any, b: any) => b.points - a.points)
@@ -27,7 +27,7 @@ export default function Home() {
 
   {/* Games */}
   <div>
-    <div className="grid grid-cols-3 gap-4 border p-10">
+    <div className="grid grid-cols-3 gap-4 p-10">
       {games.map((game: any) => (
         <GameCard key={game.id} game={game} />
       ))}
