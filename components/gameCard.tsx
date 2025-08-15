@@ -12,19 +12,25 @@ type Player = {
   game: { id: number };
 };
 
+const formatGameStatus = (game: any) => {
+  const { long, short, clock } = game.status;
+
+  if (long === "Finished") return "Final";
+  if (short === 1) return "Scheduled"; // example: before tip-off
+  if (short === 2) return `Live - Q${game.periods.current} ${clock || ""}`;
+  return long; // fallback
+};
+
 export default function GameCard({ game }: { game: any }) {
   const homePoints = game.scores.home.points;
   const visitorPoints = game.scores.visitors.points;
   const homeWinner = homePoints > visitorPoints;
 
-  const [players, setPlayers] = useState<Player[]>([]);
   const [topScorer, setTopScorer] = useState<Player | null>(null);
 
   useEffect(() => {
     async function fetchPlayers() {
       const gamePlayers = await getPlayersPerGameId(game.id); // replace with actual date
-      // Filter players for this game
-      setPlayers(gamePlayers);
       // Find top scorer
       const leading = gamePlayers.sort((a, b) => b.points - a.points)[0];
       setTopScorer(leading || null);
@@ -32,10 +38,13 @@ export default function GameCard({ game }: { game: any }) {
     fetchPlayers();
   }, [game.id]);
 
+  const gameStatus = formatGameStatus(game);
+
+
   return (
     <div
       key={game.id}
-      className="border border-white w-64 h-40 bg-gray-600 rounded-lg shadow-lg p-2 text-gray-400 font-sans"
+      className="border border-white w-64 h-30 bg-gray-600 rounded-lg shadow-lg p-2 text-gray-400 font-sans"
     >
       {/* Home team */}
       <div className="flex items-center pb-1">
@@ -79,6 +88,16 @@ export default function GameCard({ game }: { game: any }) {
           Top Scorer: {topScorer.player.firstname} {topScorer.player.lastname} ({topScorer.points} pts)
         </div>
       )}
+{/* Arena + Status */}
+<div className="flex items-start justify-between mt-1 text-xs text-gray-300">
+  <div className="flex-1 pr-2 break-words">
+    {game.arena.name}, {game.arena.city}
+  </div>
+  <div className="flex-shrink-0 whitespace-nowrap text-white font-bold">
+    {gameStatus}
+  </div>
+</div>
+
     </div>
   );
 }
