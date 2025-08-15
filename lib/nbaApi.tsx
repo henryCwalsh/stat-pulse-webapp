@@ -81,3 +81,29 @@ export async function getPlayersPerGameId(gameId: string | number): Promise<any[
     return [];
   }
 }
+
+/**
+ * Returns the standings of a specific conference in a specific year
+ * @param season - YYYY Season year
+ * @param conference - "east or west"
+ */
+export async function getStandingsPerConference(season: string | number, conference: string): Promise<any[]> {
+    const url = `https://api-nba-v1.p.rapidapi.com/standings?league=standard&season=${season}&conference=${conference}`
+    const options = {
+        method: "GET",
+        headers: {
+            'X-RapidAPI-Key': API_KEY,
+            'X-RapidAPI-Host': API_HOST
+        } as Record<string, string>
+     };
+
+    try{
+        const response = await fetch(url, options);
+        const data = await response.json();
+        console.log(data?.response);
+        return data?.response || [];
+    } catch(error){
+        console.log(error);
+        return [];
+    }
+}

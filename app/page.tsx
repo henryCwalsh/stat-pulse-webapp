@@ -5,6 +5,7 @@ import { sampleGamesData } from "@/data/gameSampleData";
 import { samplePlayersData } from "@/data/playerSampleData";
 import { useEffect } from "react";
 import PlayerRankingsCard from "@/components/playerRankingsCard";
+import { getStandingsPerConference } from "@/lib/nbaApi";
 
 export default function Home() {
 
@@ -27,11 +28,14 @@ export default function Home() {
 
   {/* Games */}
   <div>
-    <div className="grid grid-cols-3 gap-4 p-10">
+  <div className="flex flex-row gap-4 mb-8 p-10">
       {games.map((game: any) => (
         <GameCard key={game.id} game={game} />
       ))}
     </div>
+  </div>
+  {/* Standings */}
+  <div>
   </div>
 </div>
 
