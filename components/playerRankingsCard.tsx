@@ -1,16 +1,37 @@
 import { Player } from "@/types/nba";
+import Image from "next/image";
 
 type PlayerRankingsCardProps = {
-    player: Player;
-}
+  player: Player;
+};
 
-export default function PlayerRankingsCard({ player }: {player: any}) {
-    return (
+export default function PlayerRankingsCard({ player }: { player: any }) {
+  return (
     <div
-      key={player.id}
-      className="border border-white max-w-xs mx-auto bg-gray-600 rounded-lg shadow-lg p-2 text-gray-400 font-sans"
+      key={player.player.id}
+      className="border border-white max-w-xs w-40 mx-auto bg-gray-600 rounded-md shadow-sm p-1.5 text-gray-200 font-sans flex flex-col"
     >
-      {player.player.firstname} {player.player.lastname} Points: {player.points} Rebounds: {player.totReb} Assists: {player.assists}
+      {/* Top row: Image and Name */}
+      <div className="flex items-center mb-1">
+        <div className="w-6 h-6 relative flex-shrink-0 rounded-full overflow-hidden border border-gray-400">
+          <Image
+            src={player.team.logo}
+            alt={`${player.player.firstname} ${player.player.lastname} logo`}
+            fill
+            className="object-contain"
+          />
+        </div>
+        <span className="ml-1 font-semibold text-white truncate text-xs">
+          {player.player.firstname} {player.player.lastname}
+        </span>
+      </div>
+
+      {/* Stats */}
+      <div className="flex justify-between text-[10px] text-gray-200">
+        <span>Pts: {player.points}</span>
+        <span>Reb: {player.totReb}</span>
+        <span>Ast: {player.assists}</span>
+      </div>
     </div>
   );
 }

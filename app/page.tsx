@@ -41,6 +41,7 @@ export default function Home() {
                   {games.map((game: any) => (
         <GameCard key={game.id} game={game} />
       ))}
+      
 
 
 

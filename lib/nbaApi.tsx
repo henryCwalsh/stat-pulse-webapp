@@ -56,3 +56,28 @@ export async function getPlayersForDate(dateString: string): Promise<any> {
         return [];
     }
 }
+
+/**
+ * Returns all the players who played in a specific game
+ * @param gameId - The NBA game ID
+ */
+export async function getPlayersPerGameId(gameId: string | number): Promise<any[]> {
+  const url = `https://${API_HOST}/players/statistics?game=${gameId}`;
+  const options = {
+    method: "GET",
+    headers: {
+      'X-RapidAPI-Key': API_KEY,
+      'X-RapidAPI-Host': API_HOST
+    } as Record<string, string>
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    // Return the response array if it exists, otherwise an empty array
+    return data?.response || [];
+  } catch (error) {
+    console.error("Error fetching player stats:", error);
+    return [];
+  }
+}
