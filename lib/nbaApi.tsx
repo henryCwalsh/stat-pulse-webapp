@@ -1,74 +1,74 @@
-const API_HOST ="api-nba-v1.p.rapidapi.com"
-const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY
+const API_HOST = "api-nba-v1.p.rapidapi.com";
+const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
 
 /**
  * Returns NBA games from a certain date
  * @param dateString YYYY-MM-DD format
  */
 export async function getGamesPerDate(dateString: string) {
-    const url = `https://${API_HOST}/games?date=${dateString}`
-    const options = {
-        method: "GET",
-        headers: {
-            'X-RapidAPI-Key': API_KEY,
-            'X-RapidAPI-Host': API_HOST
-        } as Record<string, string>
-    };
+  const url = `https://${API_HOST}/games?date=${dateString}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": API_KEY,
+      "X-RapidAPI-Host": API_HOST,
+    } as Record<string, string>,
+  };
 
-    try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        return data;
-    }
-    catch(error){
-        console.log(error);
-    }
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /**
  * Returns all the players who played on a certain date
  */
 export async function getPlayersForDate(dateString: string): Promise<any> {
-    try {
-        const gamesData = await getGamesPerDate(dateString);
-        if (!gamesData?.response) return [];
+  try {
+    const gamesData = await getGamesPerDate(dateString);
+    if (!gamesData?.response) return [];
 
-        const gameIds = gamesData.response.map((game: any) => game.id);
+    const gameIds = gamesData.response.map((game: any) => game.id);
 
-        const playerRequests = gameIds.map((id: number) => {
-            const url = `https://${API_HOST}/players/statistics?game=${id}`;
-            return fetch(url, {
-                method: "GET",
-                headers: {
-                    'X-RapidAPI-Key': API_KEY,
-                    'X-RapidAPI-Host': API_HOST
-                } as Record<string, string>
-            }).then((res) => res.json());
-        });
-        
-        const playersResponses = await Promise.all(playerRequests);
-        console.log(playersResponses);
+    const playerRequests = gameIds.map((id: number) => {
+      const url = `https://${API_HOST}/players/statistics?game=${id}`;
+      return fetch(url, {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Key": API_KEY,
+          "X-RapidAPI-Host": API_HOST,
+        } as Record<string, string>,
+      }).then((res) => res.json());
+    });
 
-        return playersResponses.flatMap((res) => res.response || []);
+    const playersResponses = await Promise.all(playerRequests);
+    console.log(playersResponses);
 
-    } catch(error){
-        console.log(error);
-        return [];
-    }
+    return playersResponses.flatMap((res) => res.response || []);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 /**
  * Returns all the players who played in a specific game
  * @param gameId - The NBA game ID
  */
-export async function getPlayersPerGameId(gameId: string | number): Promise<any[]> {
+export async function getPlayersPerGameId(
+  gameId: string | number
+): Promise<any[]> {
   const url = `https://${API_HOST}/players/statistics?game=${gameId}`;
   const options = {
     method: "GET",
     headers: {
-      'X-RapidAPI-Key': API_KEY,
-      'X-RapidAPI-Host': API_HOST
-    } as Record<string, string>
+      "X-RapidAPI-Key": API_KEY,
+      "X-RapidAPI-Host": API_HOST,
+    } as Record<string, string>,
   };
 
   try {
@@ -87,23 +87,26 @@ export async function getPlayersPerGameId(gameId: string | number): Promise<any[
  * @param season - YYYY Season year
  * @param conference - "east or west"
  */
-export async function getStandingsPerConference(season: string | number, conference: string): Promise<any[]> {
-    const url = `https://api-nba-v1.p.rapidapi.com/standings?league=standard&season=${season}&conference=${conference}`
-    const options = {
-        method: "GET",
-        headers: {
-            'X-RapidAPI-Key': API_KEY,
-            'X-RapidAPI-Host': API_HOST
-        } as Record<string, string>
-     };
+export async function getStandingsPerConference(
+  season: string | number,
+  conference: string
+): Promise<any[]> {
+  const url = `https://api-nba-v1.p.rapidapi.com/standings?league=standard&season=${season}&conference=${conference}`;
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": API_KEY,
+      "X-RapidAPI-Host": API_HOST,
+    } as Record<string, string>,
+  };
 
-    try{
-        const response = await fetch(url, options);
-        const data = await response.json();
-        console.log(data?.response);
-        return data?.response || [];
-    } catch(error){
-        console.log(error);
-        return [];
-    }
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    console.log(data?.response);
+    return data?.response || [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }

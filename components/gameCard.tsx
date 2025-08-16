@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { sampleGamesData } from "@/data/gameSampleData";
 import { Game } from "@/types/nba";
 import Image from "next/image";
@@ -40,7 +40,6 @@ export default function GameCard({ game }: { game: any }) {
 
   const gameStatus = formatGameStatus(game);
 
-
   return (
     <div
       key={game.id}
@@ -56,10 +55,18 @@ export default function GameCard({ game }: { game: any }) {
             className="object-contain"
           />
         </div>
-        <span className={`${homeWinner ? "text-white" : ""} pl-2 flex-grow truncate`}>
+        <span
+          className={`${
+            homeWinner ? "text-white" : ""
+          } pl-2 flex-grow truncate`}
+        >
           {game.teams.home.nickname}
         </span>
-        <div className={`flex-shrink-0 w-8 text-right ${homeWinner ? "text-white" : ""}`}>
+        <div
+          className={`flex-shrink-0 w-8 text-right ${
+            homeWinner ? "text-white" : ""
+          }`}
+        >
           {homePoints}
         </div>
       </div>
@@ -74,30 +81,38 @@ export default function GameCard({ game }: { game: any }) {
             className="object-contain"
           />
         </div>
-        <span className={`${!homeWinner ? "text-white" : ""} pl-2 flex-grow truncate`}>
+        <span
+          className={`${
+            !homeWinner ? "text-white" : ""
+          } pl-2 flex-grow truncate`}
+        >
           {game.teams.visitors.nickname}
         </span>
-        <div className={`flex-shrink-0 w-8 text-right ${!homeWinner ? "text-white" : ""}`}>
+        <div
+          className={`flex-shrink-0 w-8 text-right ${
+            !homeWinner ? "text-white" : ""
+          }`}
+        >
           {visitorPoints}
         </div>
       </div>
-  
+
       {/* Leading Scorer */}
       {topScorer && (
         <div className="text-xs text-yellow-400 mt-1">
-          Top Scorer: {topScorer.player.firstname} {topScorer.player.lastname} ({topScorer.points} pts)
+          Top Scorer: {topScorer.player.firstname} {topScorer.player.lastname} (
+          {topScorer.points} pts)
         </div>
       )}
-{/* Arena + Status */}
-<div className="flex items-start justify-between mt-1 text-xs text-gray-300">
-  <div className="flex-1 pr-2 break-words">
-    {game.arena.name}, {game.arena.city}
-  </div>
-  <div className="flex-shrink-0 whitespace-nowrap text-white font-bold">
-    {gameStatus}
-  </div>
-</div>
-
+      {/* Arena + Status */}
+      <div className="flex items-start justify-between mt-1 text-xs text-gray-300">
+        <div className="flex-1 pr-2 break-words">
+          {game.arena.name}, {game.arena.city}
+        </div>
+        <div className="flex-shrink-0 whitespace-nowrap text-white font-bold">
+          {gameStatus}
+        </div>
+      </div>
     </div>
   );
 }

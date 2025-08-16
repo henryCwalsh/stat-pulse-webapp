@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import NbaTest from "@/components/nbaTest";
 import GameCard from "@/components/gameCard";
@@ -6,16 +6,23 @@ import { sampleGamesData } from "@/data/gameSampleData";
 import { samplePlayersData } from "@/data/playerSampleData";
 import { useEffect, useState } from "react";
 import PlayerRankingsCard from "@/components/playerRankingsCard";
-import { getStandingsPerConference } from "@/lib/nbaApi";
+import {
+  getStandingsPerConference,
+  getGamesPerDate,
+  getPlayersForDate,
+} from "@/lib/nbaApi";
 import NbaStandingsCard from "@/components/nbaStandings";
 
 export default function Home() {
+  //const [selectedDate, setSelectedDate] = useState("2024-12-25");
+  //const [games, setGames] = useState<any[]>([]);
   const games = sampleGamesData.response;
   const playerData = samplePlayersData;
   const [eastStandings, setEastStandings] = useState<any[]>([]);
   const [westStandings, setWestStandings] = useState<any[]>([]);
 
-  useEffect(() => {
+  {
+    /*useEffect(() => {
     async function fetchStandings() {
       const east = await getStandingsPerConference("2024", "east");
       const west = await getStandingsPerConference("2024", "west");
@@ -29,7 +36,22 @@ export default function Home() {
       );
     }
     fetchStandings();
-  }, []);
+  }, []);*/
+  }
+  {
+    /* Fetch Games Per Date Via Api */
+  }
+  {
+    /*useEffect(() => {
+    async function fetchGames() {
+      setSelectedDate("2024-12-25");
+      const gamesData = await getGamesPerDate(selectedDate);
+
+      setGames(gamesData.response);
+    }
+    fetchGames();
+  }, [selectedDate]);*/
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-row">
@@ -55,13 +77,13 @@ export default function Home() {
         </div>
 
         {/* Standings */}
-<div className="flex flex-col gap-8">
-  {/* East Standings */}
-  <NbaStandingsCard conference={eastStandings} />
+        <div className="flex flex-col gap-8 p-10">
+          {/* East Standings */}
+          <NbaStandingsCard conference={eastStandings} />
 
-  {/* West Standings */}
-  <NbaStandingsCard conference={westStandings} />
-</div>
+          {/* West Standings */}
+          <NbaStandingsCard conference={westStandings} />
+        </div>
       </div>
     </div>
   );

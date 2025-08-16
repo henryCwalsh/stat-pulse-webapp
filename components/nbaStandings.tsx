@@ -28,7 +28,9 @@ export default function NbaStandingsCard({
             key={team.team.id}
             className="flex items-center justify-between bg-gray-800 rounded-lg px-2 py-1"
           >
-            <span className="w-6 text-sm font-bold text-gray-400">{index + 1}</span>
+            <span className="w-6 text-sm font-bold text-gray-400">
+              {index + 1}
+            </span>
             <div className="flex items-center gap-1 flex-1">
               <div className="relative w-5 h-5">
                 <Image
