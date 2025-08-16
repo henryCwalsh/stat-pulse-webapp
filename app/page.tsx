@@ -1,17 +1,28 @@
+"use client"
 import Image from "next/image";
 import NbaTest from "@/components/nbaTest";
 import GameCard from "@/components/gameCard";
 import { sampleGamesData } from "@/data/gameSampleData";
 import { samplePlayersData } from "@/data/playerSampleData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PlayerRankingsCard from "@/components/playerRankingsCard";
 import { getStandingsPerConference } from "@/lib/nbaApi";
+import NbaStandingsCard from "@/components/nbaStandings";
 
 export default function Home() {
 
     const games = sampleGamesData.response;
     const playerData = samplePlayersData;
+    const [eastStandings, setEastStandings] = useState<any[]>([]);
+    const [westStandings, setWestStandings] = useState<any[]>([]);
 
+    useEffect(() => {
+      async function fetchStandings() {
+        const east = await getStandingsPerConference("2024", "east");
+        setEastStandings(east.sort((a, b) => a.rank - b.rank));
+      }
+      fetchStandings();
+    }, []);
   return (
     <div className="min-h-screen bg-black flex flex-row">
 <div className="min-h-screen bg-black flex flex-row gap-50 ">
@@ -21,8 +32,8 @@ export default function Home() {
       .slice()
       .sort((a: any, b: any) => b.points - a.points)
       .slice(0, 10)
-      .map((player: any) => (
-        <PlayerRankingsCard key={player.id} player={player} />
+      .map((player: any, index: number) => (
+        <PlayerRankingsCard key={player.id || index} player={player} />
       ))}
   </div>
 
@@ -36,6 +47,7 @@ export default function Home() {
   </div>
   {/* Standings */}
   <div>
+    <NbaStandingsCard conference={eastStandings}/>
   </div>
 </div>
 

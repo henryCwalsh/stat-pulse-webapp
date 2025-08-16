@@ -3,7 +3,7 @@ import { sampleGamesData } from "@/data/gameSampleData";
 import { Game } from "@/types/nba";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { getPlayersForDate, getPlayersPerGameId } from "@/lib/nbaApi"; // Your API function
+import { getPlayersPerGameId } from "@/lib/nbaApi"; // Your API function
 
 type Player = {
   player: { id: number; firstname: string; lastname: string };
