@@ -33,7 +33,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-black flex flex-row">
-      <div className="min-h-screen bg-black flex flex-row gap-50 ">
+      <div className="min-h-screen bg-black flex flex-row gap-40 ">
         {/* Player Rankings */}
         <div className="flex flex-col gap-4 mb-8 p-10">
           {samplePlayersData
@@ -55,9 +55,13 @@ export default function Home() {
         </div>
 
         {/* Standings */}
-        <div>
-          <NbaStandingsCard conference={westStandings} />
-        </div>
+<div className="flex flex-col gap-8">
+  {/* East Standings */}
+  <NbaStandingsCard conference={eastStandings} />
+
+  {/* West Standings */}
+  <NbaStandingsCard conference={westStandings} />
+</div>
       </div>
     </div>
   );
