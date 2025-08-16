@@ -1,19 +1,25 @@
 import Image from "next/image";
 
 export default function NbaStandingsCard({ conference }: { conference: any[] }) {
+
+  // Sort by total wins (home + away) descending
+  const rankedConference = [...conference].sort(
+    (a, b) => (b.win.home + b.win.away) - (a.win.home + a.win.away)
+  );
+
   return (
     <div className="bg-gray-900 rounded-2xl shadow-lg p-6 w-80 text-white">
 
       {/* Standings List */}
       <div className="space-y-2">
-        {conference.map((team) => (
+        {rankedConference.map((team, index) => (
           <div
             key={team.team.id} // unique key
             className="flex items-center justify-between bg-gray-800 rounded-lg px-3 py-2"
           >
-            {/* Rank */}
+            {/* Rank based on wins */}
             <span className="w-6 text-sm font-bold text-gray-400">
-              {team.conference.rank}
+              {index + 1}
             </span>
 
             {/* Logo + Name */}
@@ -31,7 +37,7 @@ export default function NbaStandingsCard({ conference }: { conference: any[] }) 
 
             {/* Record */}
             <span className="text-sm text-gray-300">
-              {team.conference.win}-{team.conference.loss}
+              {team.win.home + team.win.away}-{team.loss.home + team.loss.away}
             </span>
           </div>
         ))}

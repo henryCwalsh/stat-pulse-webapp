@@ -10,47 +10,55 @@ import { getStandingsPerConference } from "@/lib/nbaApi";
 import NbaStandingsCard from "@/components/nbaStandings";
 
 export default function Home() {
+  const games = sampleGamesData.response;
+  const playerData = samplePlayersData;
+  const [eastStandings, setEastStandings] = useState<any[]>([]);
+  const [westStandings, setWestStandings] = useState<any[]>([]);
 
-    const games = sampleGamesData.response;
-    const playerData = samplePlayersData;
-    const [eastStandings, setEastStandings] = useState<any[]>([]);
-    const [westStandings, setWestStandings] = useState<any[]>([]);
+  useEffect(() => {
+    async function fetchStandings() {
+      const east = await getStandingsPerConference("2024", "east");
+      const west = await getStandingsPerConference("2024", "west");
 
-    useEffect(() => {
-      async function fetchStandings() {
-        const east = await getStandingsPerConference("2024", "east");
-        setEastStandings(east.sort((a, b) => a.rank - b.rank));
-      }
-      fetchStandings();
-    }, []);
+      // Sort by total wins (home + away)
+      setEastStandings(
+        east.sort((a, b) => a.win.home + a.win.away - (b.win.home + b.win.away))
+      );
+      setWestStandings(
+        west.sort((a, b) => a.win.home + a.win.away - (b.win.home + b.win.away))
+      );
+    }
+    fetchStandings();
+  }, []);
+
   return (
     <div className="min-h-screen bg-black flex flex-row">
-<div className="min-h-screen bg-black flex flex-row gap-50 ">
-  {/* Player Rankings */}
-  <div className="flex flex-col gap-4 mb-8 p-10">
-    {samplePlayersData
-      .slice()
-      .sort((a: any, b: any) => b.points - a.points)
-      .slice(0, 10)
-      .map((player: any, index: number) => (
-        <PlayerRankingsCard key={player.id || index} player={player} />
-      ))}
-  </div>
+      <div className="min-h-screen bg-black flex flex-row gap-50 ">
+        {/* Player Rankings */}
+        <div className="flex flex-col gap-4 mb-8 p-10">
+          {samplePlayersData
+            .slice()
+            .sort((a: any, b: any) => b.points - a.points)
+            .slice(0, 10)
+            .map((player: any, index: number) => (
+              <PlayerRankingsCard key={player.id || index} player={player} />
+            ))}
+        </div>
 
-  {/* Games */}
-  <div>
-  <div className="flex flex-row gap-4 mb-8 p-10">
-      {games.map((game: any) => (
-        <GameCard key={game.id} game={game} />
-      ))}
-    </div>
-  </div>
-  {/* Standings */}
-  <div>
-    <NbaStandingsCard conference={eastStandings}/>
-  </div>
-</div>
+        {/* Games */}
+        <div>
+          <div className="flex flex-row gap-4 mb-8 p-10">
+            {games.map((game: any) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+          </div>
+        </div>
 
+        {/* Standings */}
+        <div>
+          <NbaStandingsCard conference={westStandings} />
+        </div>
+      </div>
     </div>
   );
 }
